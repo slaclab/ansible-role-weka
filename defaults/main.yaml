@@ -1,0 +1,7 @@
+weka_api_token: ""
+weka_version: 3.13.3 
+#weka_installscript_url: "https://get.weka.io/dist/v1/pkg/weka-{{ weka_version }}.tar"
+weka_tarball_url: "http://yum1.slac.stanford.edu/weka/weka-{{ weka_version }}.tar"
+weka_tarball_dir: "/tmp/weka-{{weka_version}}"
+weka_install_dir: "{{ weka_tarball_dir }}/weka-{{weka_version}}"
+weka_installscript: "{{ weka_install_dir }}/install.sh"

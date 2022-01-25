@@ -1,0 +1,31 @@
+- name: Create install directory
+  file:
+    path: "{{ weka_install_dir }}"
+    state: directory
+
+- name: Unarchive tarball
+  unarchive:
+    src: "{{ weka_tarball_url }}"
+    dest: "{{ weka_tarball_dir }}"
+    remote_src: yes
+
+- name: Install {{weka_installscript}}
+  command: "{{ weka_installscript }}"
+  become: yes
+  register: weka_log
+  #changed_when: weka_log.rc == 0
+  args:
+    chdir: "{{ weka_install_dir }}"
+
+- name: Install output
+  debug:
+    msg: "{{ weka_log }}"
+
+- name: Cleanup
+  file:
+    state: absent
+    path: "{{ item }}"
+  with_items:
+  - "{{ weka_tarball_dir }}"
+
+

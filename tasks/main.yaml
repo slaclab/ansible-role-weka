@@ -1,0 +1,19 @@
+- name: Weka installed
+  shell: /usr/bin/weka --version | awk '{print $4}'
+  register: _weka
+  ignore_errors: yes
+  failed_when: "( _weka.rc == 2 ) or ( _weka.stdout != weka_version )"
+  changed_when: False
+
+- include_tasks: "{{ ansible_os_family | lower() }}.yaml"
+  when:
+  - _weka.failed
+
+- name: Validating weka install
+  shell: /usr/bin/weka --version | awk '{print $4}'
+  register: _weka_after
+  failed_when: " _weka_after.stdout != weka_version "
+  changed_when: False
+  when: _weka.failed
+
+
